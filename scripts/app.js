@@ -14,7 +14,7 @@ function createScene(){
     camera.position.set( 100000, 0, 3200 );
     scene = new THREE.Scene();
     renderer = new THREE.WebGLRenderer({preserveDrawingBuffer: true});
-    renderer.setPixelRatio(window.devicePixelRatio ;
+    renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.autoClearColor = false;
     container.appendChild(renderer.domElement);
@@ -118,8 +118,8 @@ function createScene(){
     }
 
     function render() {
-        camera.position.x += ( - mouseX - camera.position.x ) * .025;
-        camera.position.y += ( mouseY - camera.position.y ) * .025;
+        camera.position.x += ( - mouseX - camera.position.x ) * .02;
+        camera.position.y += ( mouseY - camera.position.y ) * .02;
         camera.lookAt(scene.position);
         renderer.render(scene, camera);
     }
