@@ -67,8 +67,9 @@ function createScene(){
             vertex.x = Math.sin(i);
             vertex.y = Math.cos(i);
             vertex.z = Math.random() * (i/2);
-            geometry.vertices.push( vertex );
+            geometry.vertices.push(vertex);
             geometry.colors.push(new THREE.Color(colors[ Math.floor(Math.random() * colors.length) ]));
+            console.log(geometry);
             var material = new THREE.PointsMaterial( {
                 size: 0.75,
                 vertexColors: THREE.VertexColors,
@@ -118,6 +119,11 @@ function createScene(){
     }
 
     function render() {
+        for (var j = 0; j < points.length; j++){
+            var point = points[j];
+            // point.geometry.vertices.z
+            // add audio integration here
+        }
         camera.position.x += ( - mouseX - camera.position.x ) * .02;
         camera.position.y += ( mouseY - camera.position.y ) * .02;
         camera.lookAt(scene.position);
