@@ -12,8 +12,8 @@ var windowHalfY = window.innerHeight / 2;
     container = document.createElement('div');
     container.setAttribute('id', 'container');
     document.body.appendChild(container);
-    camera = new THREE.PerspectiveCamera(500, window.innerWidth / window.innerHeight, 1, 10000);
-    camera.position.set( 0, 0, 0 );
+    camera = new THREE.PerspectiveCamera(100, window.innerWidth / window.innerHeight, 1, 10000);
+    camera.position.set( 0, 0, 750 );
     scene = new THREE.Scene();
     renderer = new THREE.WebGLRenderer({preserveDrawingBuffer: true});
     renderer.setPixelRatio(window.devicePixelRatio);
@@ -68,8 +68,8 @@ var windowHalfY = window.innerHeight / 2;
             var vertex = new THREE.Vector3();
             geometry.verticesNeedUpdate = true;
             vertex.x = 0;
-            vertex.y = (i - 1024);
-            vertex.z = 1;
+            vertex.y = (i-1024);
+            // vertex.z = 1;
             geometry.vertices.push(vertex);
             geometry.colors.push(new THREE.Color(colors[ Math.floor(Math.random() * colors.length) ]));
             // console.log(geometry);
@@ -136,15 +136,13 @@ var windowHalfY = window.innerHeight / 2;
 
             point.position.x = point.geometry.vertices[0].x;
             point.position.y = point.geometry.vertices[0].y;
-            if ((timeFrequencyData[j]) === 0){
-                point.position.z = -1;
-            }
+
             // else if ((timeFloatData[j] * timeFrequencyData[j] * 100) >= 10000 || (timeFloatData[j] * timeFrequencyData[j] * 100) <= -10000){
             //     console.log('out of range')
             // }
-            else{
-                point.position.z = (-timeFrequencyData[j]);
-            }
+            // else{
+                point.position.z = (-(timeFrequencyData[j])/3);
+            // }
             // console.log(j);
             // camera.position.x += Math.sin(j);
             // camera.position.y += Math.cos(j);
@@ -152,7 +150,7 @@ var windowHalfY = window.innerHeight / 2;
         }
         // camera.position.x += ( - mouseX - camera.position.x ) * .02;
         // camera.position.y += ( mouseY - camera.position.y ) * .02;
-        var rotationMatrix = new THREE.Matrix4().makeRotationZ( Math.PI / 2000 );
+        var rotationMatrix = new THREE.Matrix4().makeRotationZ( Math.PI / 1500 );
         camera.up.applyMatrix4(rotationMatrix);
         camera.lookAt(scene.position);
         renderer.render(scene, camera);
