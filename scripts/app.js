@@ -144,12 +144,13 @@ var windowHalfY = window.innerHeight / 2;
                 point.position.z = (-(timeFrequencyData[j])/3);
             // }
             // console.log(j);
-            // camera.position.x += Math.sin(j);
-            // camera.position.y += Math.cos(j);
+            // camera.position.x = Math.sin(j/2048)*500;
+            // camera.position.y = -Math.cos(j/2048)*500;
+            // camera.position.z = Math.sin(j/2048)*700;
             // add audio integration here
         }
-        // camera.position.x += ( - mouseX - camera.position.x ) * .02;
-        // camera.position.y += ( mouseY - camera.position.y ) * .02;
+        // camera.position.x += ( - mouseX - camera.position.x ) * .002;
+        // camera.position.y += ( mouseY - camera.position.y ) * .002;
         var rotationMatrix = new THREE.Matrix4().makeRotationZ( Math.PI / 1500 );
         camera.up.applyMatrix4(rotationMatrix);
         camera.lookAt(scene.position);
