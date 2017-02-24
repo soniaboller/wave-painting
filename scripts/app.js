@@ -136,16 +136,15 @@ var windowHalfY = window.innerHeight / 2;
 
             point.position.x = point.geometry.vertices[0].x;
             point.position.y = point.geometry.vertices[0].y;
-            if ((timeFloatData[j] * timeFrequencyData[j] * 100) === 0){
-                point.position.z = 1;
+            if ((timeFrequencyData[j]) === 0){
+                point.position.z = -1;
             }
             // else if ((timeFloatData[j] * timeFrequencyData[j] * 100) >= 10000 || (timeFloatData[j] * timeFrequencyData[j] * 100) <= -10000){
             //     console.log('out of range')
             // }
             else{
-                point.position.z = (timeFloatData[j] * timeFrequencyData[j]) * 100;
+                point.position.z = (-timeFrequencyData[j]);
             }
-            // console.log(point.position.z);
             // console.log(j);
             // camera.position.x += Math.sin(j);
             // camera.position.y += Math.cos(j);
