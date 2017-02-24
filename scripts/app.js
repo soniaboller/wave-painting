@@ -66,10 +66,10 @@ var windowHalfY = window.innerHeight / 2;
         for (var i = 0; i < 2048; i++) {
             var geometry = new THREE.Geometry();
             var vertex = new THREE.Vector3();
-            geometry.verticesNeedUpdate = true;
+            // geometry.verticesNeedUpdate = true;
             vertex.x = 0;
             vertex.y = (i-1024);
-            // vertex.z = 1;
+            vertex.z = 1;
             geometry.vertices.push(vertex);
             geometry.colors.push(new THREE.Color(colors[ Math.floor(Math.random() * colors.length) ]));
             // console.log(geometry);
@@ -149,8 +149,10 @@ var windowHalfY = window.innerHeight / 2;
             // camera.position.z = Math.sin(j/2048)*700;
             // add audio integration here
         }
-        // camera.position.x += ( - mouseX - camera.position.x ) * .002;
-        // camera.position.y += ( mouseY - camera.position.y ) * .002;
+
+        // need camera position x and y to revolve around at the same speed as the rotation matrix, but oscillate on the sin and cos wave
+        camera.position.x += ( - mouseX - camera.position.x ) * .002;
+        camera.position.y += ( mouseY - camera.position.y ) * .002;
         var rotationMatrix = new THREE.Matrix4().makeRotationZ( Math.PI / 1500 );
         camera.up.applyMatrix4(rotationMatrix);
         camera.lookAt(scene.position);
