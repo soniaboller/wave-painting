@@ -12,7 +12,7 @@ var windowHalfY = window.innerHeight / 2;
     container = document.createElement('div');
     container.setAttribute('id', 'container');
     document.body.appendChild(container);
-    camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 1, 10000);
+    camera = new THREE.PerspectiveCamera(500, window.innerWidth / window.innerHeight, 1, 10000);
     camera.position.set( 0, 0, 0 );
     scene = new THREE.Scene();
     renderer = new THREE.WebGLRenderer({preserveDrawingBuffer: true});
@@ -68,16 +68,16 @@ var windowHalfY = window.innerHeight / 2;
             var vertex = new THREE.Vector3();
             geometry.verticesNeedUpdate = true;
             vertex.x = 0;
-            vertex.y = i;
+            vertex.y = (i - 1024);
             vertex.z = 1;
             geometry.vertices.push(vertex);
             geometry.colors.push(new THREE.Color(colors[ Math.floor(Math.random() * colors.length) ]));
             // console.log(geometry);
             var material = new THREE.PointsMaterial( {
-                size: 0.75,
+                size: 1,
                 vertexColors: THREE.VertexColors,
                 depthTest: false,
-                opacity: 0.75,
+                opacity: 1,
                 sizeAttenuation: false
                 } );
             var mesh = new THREE.Points( geometry, material );
@@ -86,6 +86,7 @@ var windowHalfY = window.innerHeight / 2;
         }
         document.addEventListener('mousemove', onMouseMove, false);
         window.addEventListener('resize', onWindowResize, false);
+        document.addEventListener('keydown', onKeyDown, false);
         // animate();
     }
 
@@ -133,19 +134,43 @@ var windowHalfY = window.innerHeight / 2;
             // point.geometry.vertices[0].z = (timeFloatData[j] * timeFrequencyData[j] * 250);
             // console.log(point.geometry.vertices[0].z);
 
-            // point.position.x += Math.sin(j);
-            // point.position.y += Math.cos(j);
-            point.position.z = (timeFloatData[j] * timeFrequencyData[j]);
+            point.position.x = point.geometry.vertices[0].x;
+            point.position.y = point.geometry.vertices[0].y;
+            if ((timeFloatData[j] * timeFrequencyData[j] * 100) === 0){
+                point.position.z = 1;
+            }
+            // else if ((timeFloatData[j] * timeFrequencyData[j] * 100) >= 10000 || (timeFloatData[j] * timeFrequencyData[j] * 100) <= -10000){
+            //     console.log('out of range')
+            // }
+            else{
+                point.position.z = (timeFloatData[j] * timeFrequencyData[j]) * 100;
+            }
+            // console.log(point.position.z);
+            // console.log(j);
             // camera.position.x += Math.sin(j);
             // camera.position.y += Math.cos(j);
             // add audio integration here
         }
         // camera.position.x += ( - mouseX - camera.position.x ) * .02;
         // camera.position.y += ( mouseY - camera.position.y ) * .02;
-        var rotationMatrix = new THREE.Matrix4().makeRotationZ( Math.PI / 5000 );
+        var rotationMatrix = new THREE.Matrix4().makeRotationZ( Math.PI / 2000 );
         camera.up.applyMatrix4(rotationMatrix);
         camera.lookAt(scene.position);
         renderer.render(scene, camera);
     }
+
+function onKeyDown(e) {
+    switch (e.which) {
+        case 32:
+            if (app.play) {
+                app.audio.pause();
+                app.play = false;
+            } else {
+                app.audio.play();
+                app.play = true;
+            }
+            break;
+    }
+}
 
 // }
