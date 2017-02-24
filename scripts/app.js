@@ -1,17 +1,19 @@
 var app = app || {};
+app.init = init;
+app.animate = animate;
 var container, points = [];
 var camera, scene, renderer;
 var mouseX = 0, mouseY = 0;
 var windowHalfX = window.innerWidth / 2;
 var windowHalfY = window.innerHeight / 2;
-createScene();
+// createScene();
 
-function createScene(){
+// function createScene(){
     container = document.createElement('div');
     container.setAttribute('id', 'container');
     document.body.appendChild(container);
     camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 1, 10000);
-    camera.position.set( 100000, 0, 3200 );
+    camera.position.set( 0, 0, 0 );
     scene = new THREE.Scene();
     renderer = new THREE.WebGLRenderer({preserveDrawingBuffer: true});
     renderer.setPixelRatio(window.devicePixelRatio);
@@ -29,7 +31,7 @@ function createScene(){
     var gui = new dat.GUI();
     gui.add(wave, 'color', {Red: 'red', Orange: 'orange', Yellow: 'yellow', Green: 'green', Blue: 'blue', Purple: 'purple'})
     .name('Color').listen().onChange(function(){
-        if (points.length >= 3850){
+        if (points.length >= 2048){
             clearCanvas();
         }
         init();
@@ -61,15 +63,16 @@ function createScene(){
         else if(wave.color === 'purple'){
             colors = purpleColors;
         }
-        for (var i = 0; i < 3850; i++) {
+        for (var i = 0; i < 2048; i++) {
             var geometry = new THREE.Geometry();
             var vertex = new THREE.Vector3();
-            vertex.x = Math.sin(i);
-            vertex.y = Math.cos(i);
-            vertex.z = Math.random() * (i/2);
+            geometry.verticesNeedUpdate = true;
+            vertex.x = 0;
+            vertex.y = i;
+            vertex.z = 1;
             geometry.vertices.push(vertex);
             geometry.colors.push(new THREE.Color(colors[ Math.floor(Math.random() * colors.length) ]));
-            console.log(geometry);
+            // console.log(geometry);
             var material = new THREE.PointsMaterial( {
                 size: 0.75,
                 vertexColors: THREE.VertexColors,
@@ -83,7 +86,7 @@ function createScene(){
         }
         document.addEventListener('mousemove', onMouseMove, false);
         window.addEventListener('resize', onWindowResize, false);
-        animate();
+        // animate();
     }
 
     function clearCanvas(){
@@ -119,15 +122,30 @@ function createScene(){
     }
 
     function render() {
+        var timeFrequencyData = new Uint8Array(analyser.fftSize);
+        var timeFloatData = new Float32Array(analyser.fftSize);
+        analyser.getByteTimeDomainData(timeFrequencyData);
+        analyser.getFloatTimeDomainData(timeFloatData);
         for (var j = 0; j < points.length; j++){
             var point = points[j];
-            // point.geometry.vertices.z
+            // point.geometry.vertices[0].x += Math.sin(j);
+            // point.geometry.vertices[0].y += Math.cos(j);
+            // point.geometry.vertices[0].z = (timeFloatData[j] * timeFrequencyData[j] * 250);
+            // console.log(point.geometry.vertices[0].z);
+
+            // point.position.x += Math.sin(j);
+            // point.position.y += Math.cos(j);
+            point.position.z = (timeFloatData[j] * timeFrequencyData[j]);
+            // camera.position.x += Math.sin(j);
+            // camera.position.y += Math.cos(j);
             // add audio integration here
         }
-        camera.position.x += ( - mouseX - camera.position.x ) * .02;
-        camera.position.y += ( mouseY - camera.position.y ) * .02;
+        // camera.position.x += ( - mouseX - camera.position.x ) * .02;
+        // camera.position.y += ( mouseY - camera.position.y ) * .02;
+        var rotationMatrix = new THREE.Matrix4().makeRotationZ( Math.PI / 5000 );
+        camera.up.applyMatrix4(rotationMatrix);
         camera.lookAt(scene.position);
         renderer.render(scene, camera);
     }
 
-}
+// }
