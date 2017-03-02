@@ -13,13 +13,14 @@ var windowHalfY = window.innerHeight / 2;
     container.setAttribute('id', 'container');
     document.body.appendChild(container);
     camera = new THREE.PerspectiveCamera(100, window.innerWidth / window.innerHeight, 1, 10000);
-    camera.position.set( 0, 0, 750 );
+    camera.position.set( 250, 0, 250 );
     scene = new THREE.Scene();
     renderer = new THREE.WebGLRenderer({preserveDrawingBuffer: true});
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.autoClearColor = false;
     container.appendChild(renderer.domElement);
+    controls = new THREE.OrbitControls( camera, renderer.domElement );
     // var stats = new Stats();
     // stats.showPanel( 0 );
     // document.body.appendChild( stats.dom );
@@ -63,13 +64,12 @@ var windowHalfY = window.innerHeight / 2;
         else if(wave.color === 'purple'){
             colors = purpleColors;
         }
-        for (var i = 0; i < 2048; i++) {
+        for (var i = 0; i < 512; i++) {
             var geometry = new THREE.Geometry();
             var vertex = new THREE.Vector3();
             // geometry.verticesNeedUpdate = true;
             vertex.x = 0;
-            vertex.y = (i-1024);
-            vertex.z = 1;
+            vertex.y = (i-256);
             geometry.vertices.push(vertex);
             geometry.colors.push(new THREE.Color(colors[ Math.floor(Math.random() * colors.length) ]));
             // console.log(geometry);
@@ -134,14 +134,17 @@ var windowHalfY = window.innerHeight / 2;
             // point.geometry.vertices[0].z = (timeFloatData[j] * timeFrequencyData[j] * 250);
             // console.log(point.geometry.vertices[0].z);
 
-            point.position.x = point.geometry.vertices[0].x;
-            point.position.y = point.geometry.vertices[0].y;
+            // point.position.x = point.geometry.vertices[0].x;
+            // point.position.y = point.geometry.vertices[0].y;
 
             // else if ((timeFloatData[j] * timeFrequencyData[j] * 100) >= 10000 || (timeFloatData[j] * timeFrequencyData[j] * 100) <= -10000){
             //     console.log('out of range')
             // }
             // else{
-                point.position.z = (-(timeFrequencyData[j])/3);
+                var n = 1;
+                n +=0.1;
+                point.position.x = 200 * Math.sin(n);
+                point.position.z = (-(timeFrequencyData[j])/300);
             // }
             // console.log(j);
             // camera.position.x = Math.sin(j/2048)*500;
@@ -149,12 +152,17 @@ var windowHalfY = window.innerHeight / 2;
             // camera.position.z = Math.sin(j/2048)*700;
             // add audio integration here
         }
+        var x = camera.position.x;
+        var z = camera.position.z;
+        camera.position.x = x * Math.cos(0.002) - z * Math.sin(0.002);
+        camera.position.z = z * Math.cos(0.002) + x * Math.sin(0.002);
 
         // need camera position x and y to revolve around at the same speed as the rotation matrix, but oscillate on the sin and cos wave
         // camera.position.x += ( - mouseX - camera.position.x ) * .002;
         // camera.position.y += ( mouseY - camera.position.y ) * .002;
-        var rotationMatrix = new THREE.Matrix4().makeRotationZ( Math.PI / 1500 );
+        var rotationMatrix = new THREE.Matrix4().makeRotationZ( Math.PI / 5000 );
         camera.up.applyMatrix4(rotationMatrix);
+
         camera.lookAt(scene.position);
         renderer.render(scene, camera);
     }
