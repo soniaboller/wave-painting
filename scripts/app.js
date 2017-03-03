@@ -142,7 +142,7 @@ var windowHalfY = window.innerHeight / 2;
             //     console.log('out of range')
             // }
             // else{
-                point.position.z = (-(timeFloatData[j])/3);
+                point.position.z = (-(timeFrequencyData[j])/3);
             // }
             // console.log(j);
             // camera.position.x = Math.sin(j/2048)*500;
