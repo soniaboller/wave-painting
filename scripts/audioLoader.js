@@ -2,6 +2,7 @@ var app = app || {};
 var source;
 var buffer;
 var analyser;
+var microphone;
 
 window.onload = function () {
     // app.init();
