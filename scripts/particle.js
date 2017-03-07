@@ -7,13 +7,11 @@ var mouseX = 0, mouseY = 0;
 var windowHalfX = window.innerWidth / 2;
 var windowHalfY = window.innerHeight / 2;
 var start = Date.now();
-// createScene();
 
-// function createScene(){
 container = document.createElement('div');
 container.setAttribute('id', 'container');
 document.body.appendChild(container);
-camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 10000);
+camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 1, 10000);
 camera.position.set( 0, 0, 50 );
 scene = new THREE.Scene();
 renderer = new THREE.WebGLRenderer({preserveDrawingBuffer: true});
@@ -25,8 +23,8 @@ controls = new THREE.OrbitControls( camera, renderer.domElement );
 
 var GuiControls = function(){
     this.spacing = 20;
-    this.distance = 10;
-    this.animationSpeed = 0.0005;
+    this.distance = 0.99995;
+    this.animationSpeed = 0.00005;
     this.intensity = 1;
     this.zoomSpeed = 0.01;
     this.R = 0;
@@ -40,8 +38,8 @@ var matrix = new GuiControls();
 
 var gui = new dat.GUI();
 gui.add(matrix, 'spacing', 0, 50).step(0.1).name('Spacing');
-gui.add(matrix, 'distance', 0, 50).step(0.1).name('Distance');
-gui.add(matrix, 'animationSpeed', 0, 0.01).step(0.0001).name('Animation Speed');
+gui.add(matrix, 'distance', 0, 10).step(0.1).name('Distance');
+gui.add(matrix, 'animationSpeed', 0.0000001, 0.01).step(0.00001).name('Animation Speed');
 gui.add(matrix, 'intensity', 1, 5).step(0.1).name('Intensity');
 gui.add(matrix, 'zoomSpeed', 0.001, 0.1).step(0.001).name('Zoom Speed');
 gui.add(matrix, 'colorIntensity', 1, 5).step(1).name('Color Intensity');
@@ -53,13 +51,13 @@ document.body.appendChild( stats.dom );
 init();
 
 function init() {
-    var colors;
-    var redColors = [0xff0000, 0xb20000, 0x7f0000, 0x000000, 0xffffff];
-    var orangeColors = [0xffd700, 0xffa500, 0xff8c00, 0x000000, 0xffffff];
-    var yellowColors = [0xffff66, 0xffff00, 0x999900, 0x000000, 0xffffff];
-    var greenColors = [0x00ff00, 0x00b200, 0x006600, 0x000000, 0xffffff];
-    var blueColors = [ 0x0900ff, 0x0078ff, 0x00f9ff, 0x000000, 0xffffff];
-    var purpleColors = [0xee82ee, 0xff00ff, 0x9400d3, 0xffffff];
+    // var colors;
+    // var redColors = [0xff0000, 0xb20000, 0x7f0000, 0x000000, 0xffffff];
+    // var orangeColors = [0xffd700, 0xffa500, 0xff8c00, 0x000000, 0xffffff];
+    // var yellowColors = [0xffff66, 0xffff00, 0x999900, 0x000000, 0xffffff];
+    // var greenColors = [0x00ff00, 0x00b200, 0x006600, 0x000000, 0xffffff];
+    // var blueColors = [ 0x0900ff, 0x0078ff, 0x00f9ff, 0x000000, 0xffffff];
+    // var purpleColors = [0xee82ee, 0xff00ff, 0x9400d3, 0xffffff];
     for (var i = 0; i < 2048; i++) {
         var geometry = new THREE.Geometry();
         var vertex = new THREE.Vector3();
@@ -71,11 +69,11 @@ function init() {
         // geometry.colors.push(new THREE.Color(purpleColors[ Math.floor(Math.random() * purpleColors.length) ]));
         geometry.colors.push(new THREE.Color(0xffffff));
         var material = new THREE.PointsMaterial( {
-            size: 1,
+            size: 0.2,
             vertexColors: THREE.VertexColors,
-            depthTest: false,
+            depthTest: true,
             opacity: 1,
-            sizeAttenuation: false
+            sizeAttenuation: true
         } );
         var mesh = new THREE.Points( geometry, material );
         mesh.position.x = 20 * Math.sin(i/10) * Math.cos(i);
@@ -199,8 +197,6 @@ function onKeyDown(e) {
             break;
     }
 }
-
-// }
 
 
 // var neither = [];
