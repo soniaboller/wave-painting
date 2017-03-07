@@ -6,19 +6,19 @@ body {
     overflow:hidden;
 }
 
-.dg li:not(.folder){
-    background: transparent !important;
-    border-bottom: none !important;
-}
-.dg.main .close-button{
-    background: transparent !important;
-}
+/*.dg li:not(.folder){*/
+    /*background: transparent !important;*/
+    /*border-bottom: none !important;*/
+/*}*/
+/*.dg.main .close-button{*/
+    /*background: transparent !important;*/
+/*}*/
 
-.dg.a{
-    margin: 0 !important;
-    width: 125px !important;
-}
+/*.dg.a{*/
+    /*margin: 0 !important;*/
+    /*width: 125px !important;*/
+/*}*/
 
-.close-button{
-    visibility: hidden;
-}
+/*.close-button{*/
+    /*visibility: hidden;*/
+/*}*/
