@@ -23,8 +23,8 @@ controls = new THREE.OrbitControls( camera, renderer.domElement );
 
 var GuiControls = function(){
     this.spacing = 20;
-    this.distance = 0.99995;
-    this.animationSpeed = 0.00005;
+    this.distance = 0.975000;
+    this.animationSpeed = 0.00001;
     this.intensity = 1;
     this.zoomSpeed = 0.01;
     this.R = 0;
@@ -38,7 +38,7 @@ var matrix = new GuiControls();
 
 var gui = new dat.GUI();
 gui.add(matrix, 'spacing', 0, 50).step(0.1).name('Spacing');
-gui.add(matrix, 'distance', 0, 10).step(0.1).name('Distance');
+gui.add(matrix, 'distance', 0, 100).step(0.1).name('Distance');
 gui.add(matrix, 'animationSpeed', 0.0000001, 0.01).step(0.00001).name('Animation Speed');
 gui.add(matrix, 'intensity', 1, 5).step(0.1).name('Intensity');
 gui.add(matrix, 'zoomSpeed', 0.001, 0.1).step(0.001).name('Zoom Speed');
