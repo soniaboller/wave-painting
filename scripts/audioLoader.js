@@ -41,5 +41,20 @@ window.onload = function () {
         source.connect(analyser); // connects the analyser node to the audioNode and the audioDestinationNode
         app.animate();
     }
+
+    // getMicInput();
+    function getMicInput(){
+        navigator.mediaDevices.getUserMedia({audio: true}).then(function(stream) {
+            app.ctx = new (window.AudioContext || window.webkitAudioContext)();
+            source = app.ctx.createBufferSource();
+            analyser = app.ctx.createAnalyser();
+            analyser.fftSize = 2048;
+            microphone = app.ctx.createMediaStreamSource(stream);
+            microphone.connect(analyser);
+            app.animate();
+        }).catch(function(err) {
+            console.log('error', err)
+        });
+    }
 };
 
